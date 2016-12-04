@@ -1,0 +1,13 @@
+
+export("ffmpeg",
+       
+       "fileInput",
+       "screenInput",
+       "concatInput",
+
+       "fileOutput")
+
+S3method("as.character", "FFmpeg_input_file")
+S3method("as.character", "FFmpeg_input_screen")
+S3method("as.character", "FFmpeg_input_concat")
+S3method("as.character", "FFmpeg_output_file")
