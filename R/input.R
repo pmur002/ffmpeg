@@ -20,7 +20,8 @@ as.character.FFmpeg_input_file <- function(x, ...) {
     }
 }
 
-screenInput <- function(x=0, y=0, w=640, h=480, fps=25, display="0.0",
+screenInput <- function(x=0, y=0, w=640, h=480, fps=25,
+                        display=Sys.getenv("DISPLAY"),
                         duration=2) {
     format <- switch(R.version$os,
                      "linux-gnu"="x11grab",
@@ -38,7 +39,7 @@ screenInput <- function(x=0, y=0, w=640, h=480, fps=25, display="0.0",
 }
 
 as.character.FFmpeg_input_screen <- function(x, ...) {
-    sprintf("-f %s -video_size %dx%d -framerate %d -t %f -i :%s+%d,%d ",
+    sprintf("-f %s -video_size %dx%d -framerate %d -t %f -i %s+%d,%d ",
             x$format, x$w, x$h, x$fps, x$duration, x$display, x$x, x$y)
 }
 

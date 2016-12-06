@@ -10,7 +10,8 @@
 }
 \usage{
 fileInput(filename, duration=NULL) 
-screenInput(x=0, y=0, w=640, h=480, fps=25, display="0.0",
+screenInput(x=0, y=0, w=640, h=480, fps=25,
+            display=Sys.getenv("DISPLAY"),
             duration=2)
 concatInput(filenames) 
 }
