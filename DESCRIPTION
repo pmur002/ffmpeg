@@ -1,7 +1,7 @@
 Package: ffmpeg
 Type: Package
 Title: R interface to the ffmpeg command
-Version: 0.1-1
+Version: 0.1-2
 Date: 2016-11-30
 Author: Paul Murrell
 Maintainer: Paul Murrell <paul@stat.auckland.ac.nz>

@@ -7,10 +7,12 @@ mapCodec <- function(x) {
         switch(x,
 
                ## Audio codecs
+               libvorbis=,
                Vorbis=,
                vorbis="libvorbis",
                
                ## Video codecs
+               libvpx=,
                vp8=,
                VP8="libvpx",
                
