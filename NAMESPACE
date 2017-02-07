@@ -5,9 +5,16 @@ export("ffmpeg",
        "screenInput",
        "concatInput",
 
-       "fileOutput")
+       "fileOutput",
+
+       "copy",
+       "VP8", "vp8", "libvpx",
+       "vorbis", "Vorbis", "libvorbis")
 
 S3method("as.character", "FFmpeg_input_file")
 S3method("as.character", "FFmpeg_input_screen")
 S3method("as.character", "FFmpeg_input_concat")
 S3method("as.character", "FFmpeg_output_file")
+S3method("as.character", "FFmpeg_codec_copy")
+S3method("as.character", "FFmpeg_codec_VP8")
+S3method("as.character", "FFmpeg_codec_vorbis")
