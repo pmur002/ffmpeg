@@ -55,6 +55,71 @@ as.character.FFmpeg_codec_VP8 <- function(x, ...) {
     do.call(sprintf, c(list(fmt), args))
 }
 
+VP9 <- function(bitrate=1, quality=10, quantizer=NULL, constant=FALSE,
+                pass=NULL, altref=1, laginframes=ifelse(altref, 0, 16),
+                threads=NULL, speed=NULL, tilecolumns=NULL,
+                frameparallel=0) {
+    x <- list(bitrate=bitrate,
+              quality=quality,
+              quantizer=quantizer,
+              constant=constant,
+              pass=pass,
+              altref=altref,
+              laginframes=laginframes,
+              threads=threads,
+              speed=speed,
+              tilecolumns=tilecolumns,
+              frameparallel=frameparallel)
+    class(x) <- c("FFmpeg_codec_VP9", "FFmpeg_codec")
+    x
+}
+
+## Aliases for VP8
+vp9 <- libvpx_vp9 <- VP9
+
+as.character.FFmpeg_codec_VP9 <- function(x, ...) {
+    ## For now force disable of alternate reference frames
+    ## (else get error when running PNGs into webm video)
+    fmt <- "libvpx-vp9 -b:v %dM -auto-alt-ref %d "
+    args <- list(x$bitrate, x$altref)
+    if (x$constant) {
+        fmt <- paste0(fmt, "-minrate %dM -maxrate %dM ")
+        args <- c(args, list(x$bitrate))
+    } else {
+        fmt <- paste0(fmt, "-crf %d ")
+        args <- c(args, list(x$quality))
+    }
+    if (!is.null(x$quantizer)) {
+        fmt <- paste0(fmt, "-qmin %d -qmax %d ")
+        args <- c(args, list(x$quantizer[1], x$quantizer[2]))
+    }
+    if (!is.null(x$pass)) {
+        fmt <- paste0(fmt, "-pass %d ")
+        args <- c(args, list(x$pass))
+    }
+    if (x$laginframes > 0) {
+        fmt <- paste0(fmt, "-lag-in-fames %d ")
+        args <- c(args, list(x$laginframes))
+    }
+    if (!is.null(x$threads)) {
+        fmt <- paste0(fmt, "-threads %d ")
+        args <- c(args, list(x$threads))
+    }
+    if (!is.null(x$speed)) {
+        fmt <- paste0(fmt, "-speed %d ")
+        args <- c(args, list(x$speed))
+    }
+    if (!is.null(x$tilecolumns)) {
+        fmt <- paste0(fmt, "-tile-columns %d ")
+        args <- c(args, list(x$tilecolumns))
+    }
+    if (x$frameparallel) {
+        fmt <- paste0(fmt, "-frame-parallel %d ")
+        args <- c(args, list(x$frameparallel))
+    }
+    do.call(sprintf, c(list(fmt), args))
+}
+
 ################################################################################
 ## Audio codecs
 

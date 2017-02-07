@@ -3,6 +3,9 @@
 \alias{VP8}
 \alias{vp8}
 \alias{libvpx}
+\alias{VP9}
+\alias{vp9}
+\alias{libvpx_vp9}
 \alias{vorbis}
 \alias{Vorbis}
 \alias{libvorbis}
@@ -16,6 +19,9 @@
 copy()
 VP8(bitrate = 1, quality = 10, quantizer = NULL, constant = FALSE,
     altref = 0)
+VP9(bitrate = 1, quality = 10, quantizer = NULL, constant = FALSE,
+    pass = NULL, altref = 1, laginframes = ifelse(altref, 0, 16),
+    threads = NULL, speed = NULL, tilecolumns = NULL, frameparallel = 0)
 vorbis()
 }
 \arguments{
@@ -34,10 +40,35 @@ vorbis()
     A logical indicating whether to use a constant bitrate.  If this is
     \code{TRUE}, \code{quality} and \code{quantizer} are ignored.
   }
+  \item{pass}{
+    If not \code{NULL}, either 1 or 2 to indicate which pass is being
+    encoded (in two-pass encoding).
+  }
   \item{altref}{
-    Either 0 (default) or 1, indicating whether to enable (1) or disable (0)
+    Either 0 or 1, indicating whether to enable (1) or disable (0)
     the alternate reference frame.
   }
+  \item{laginframes}{
+    Number of frames to look ahead for alternate reference frame.
+  }
+  \item{threads}{
+    Number of threads to use for encoding.
+  }
+  \item{speed}{
+    Quality/speed ratio (higher numbers speed up encoding at the expense
+    of quality).
+  }
+  \item{tilecolumns}{
+    Number of tile columns.
+  }
+  \item{frameparallel}{
+    Enable (1) or disable (0) frame parallel decodability features.
+  }
+}
+\details{
+  For \code{VP9}, setting both \code{bitrate} and \code{quality}
+  produces \dQuote{constrained quality}.  To get \dQuote{constant quality},
+  you must set \code{bitrate} to zero.
 }
 \value{
   A codec object.
