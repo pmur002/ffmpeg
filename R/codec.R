@@ -58,7 +58,7 @@ as.character.FFmpeg_codec_VP8 <- function(x, ...) {
 VP9 <- function(bitrate=1, quality=10, quantizer=NULL, constant=FALSE,
                 pass=NULL, altref=1, laginframes=ifelse(altref, 0, 16),
                 threads=NULL, speed=NULL, tilecolumns=NULL,
-                frameparallel=0) {
+                frameparallel=0, an=FALSE) {
     x <- list(bitrate=bitrate,
               quality=quality,
               quantizer=quantizer,
@@ -69,7 +69,8 @@ VP9 <- function(bitrate=1, quality=10, quantizer=NULL, constant=FALSE,
               threads=threads,
               speed=speed,
               tilecolumns=tilecolumns,
-              frameparallel=frameparallel)
+              frameparallel=frameparallel,
+              an=an)
     class(x) <- c("FFmpeg_codec_VP9", "FFmpeg_codec")
     x
 }
@@ -80,7 +81,7 @@ vp9 <- libvpx_vp9 <- VP9
 as.character.FFmpeg_codec_VP9 <- function(x, ...) {
     ## For now force disable of alternate reference frames
     ## (else get error when running PNGs into webm video)
-    fmt <- "libvpx-vp9 -b:v %dM -auto-alt-ref %d "
+    fmt <- "libvpx-vp9 -f webm -b:v %dM -auto-alt-ref %d "
     args <- list(x$bitrate, x$altref)
     if (x$constant) {
         fmt <- paste0(fmt, "-minrate %dM -maxrate %dM ")
@@ -116,6 +117,9 @@ as.character.FFmpeg_codec_VP9 <- function(x, ...) {
     if (x$frameparallel) {
         fmt <- paste0(fmt, "-frame-parallel %d ")
         args <- c(args, list(x$frameparallel))
+    }
+    if (x$an) {
+        fmt <- paste0(fmt, "-an ")
     }
     do.call(sprintf, c(list(fmt), args))
 }

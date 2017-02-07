@@ -21,7 +21,8 @@ VP8(bitrate = 1, quality = 10, quantizer = NULL, constant = FALSE,
     altref = 0)
 VP9(bitrate = 1, quality = 10, quantizer = NULL, constant = FALSE,
     pass = NULL, altref = 1, laginframes = ifelse(altref, 0, 16),
-    threads = NULL, speed = NULL, tilecolumns = NULL, frameparallel = 0)
+    threads = NULL, speed = NULL, tilecolumns = NULL, frameparallel = 0,
+    an = FALSE)
 vorbis()
 }
 \arguments{
@@ -63,6 +64,9 @@ vorbis()
   }
   \item{frameparallel}{
     Enable (1) or disable (0) frame parallel decodability features.
+  }
+  \item{an}{
+    A logical indicating whether to disable audio recording.
   }
 }
 \details{
