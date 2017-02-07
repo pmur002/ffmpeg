@@ -22,11 +22,13 @@ as.character.FFmpeg_codec_copy <- function(x, ...) {
 ## quality is from 4-63 (lower better)
 ## quantizer is NULL or two values from 0-63
 ## constant is boolean
-VP8 <- function(bitrate=1, quality=10, quantizer=NULL, constant=FALSE) {
+VP8 <- function(bitrate=1, quality=10, quantizer=NULL, constant=FALSE,
+                altref=0) {
     x <- list(bitrate=bitrate,
               quality=quality,
               quantizer=quantizer,
-              constant=constant)
+              constant=constant,
+              altref=altref)
     class(x) <- c("FFmpeg_codec_VP8", "FFmpeg_codec")
     x
 }
@@ -37,8 +39,8 @@ vp8 <- libvpx <- VP8
 as.character.FFmpeg_codec_VP8 <- function(x, ...) {
     ## For now force disable of alternate reference frames
     ## (else get error when running PNGs into webm video)
-    fmt <- "libvpx -b:v %dM -auto-alt-ref 0 "
-    args <- list(x$bitrate)
+    fmt <- "libvpx -b:v %dM -auto-alt-ref %d "
+    args <- list(x$bitrate, x$altref)
     if (x$constant) {
         fmt <- paste0(fmt, "-minrate %dM -maxrate %dM ")
         args <- c(args, list(x$bitrate))

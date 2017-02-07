@@ -14,7 +14,8 @@
 }
 \usage{
 copy()
-VP8(bitrate = 1, quality = 10, quantizer = NULL, constant = FALSE)
+VP8(bitrate = 1, quality = 10, quantizer = NULL, constant = FALSE,
+    altref = 0)
 vorbis()
 }
 \arguments{
@@ -32,6 +33,10 @@ vorbis()
   \item{constant}{
     A logical indicating whether to use a constant bitrate.  If this is
     \code{TRUE}, \code{quality} and \code{quantizer} are ignored.
+  }
+  \item{altref}{
+    Either 0 (default) or 1, indicating whether to enable (1) or disable (0)
+    the alternate reference frame.
   }
 }
 \value{
