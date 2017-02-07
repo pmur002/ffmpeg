@@ -99,7 +99,7 @@ as.character.FFmpeg_codec_VP9 <- function(x, ...) {
         args <- c(args, list(x$pass))
     }
     if (x$laginframes > 0) {
-        fmt <- paste0(fmt, "-lag-in-fames %d ")
+        fmt <- paste0(fmt, "-lag-in-frames %d ")
         args <- c(args, list(x$laginframes))
     }
     if (!is.null(x$threads)) {
