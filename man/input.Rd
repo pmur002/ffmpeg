@@ -9,7 +9,7 @@
   Create an object that contains a description of an input for ffmpeg.
 }
 \usage{
-fileInput(filename, duration=NULL) 
+fileInput(filename, duration=NULL, framerate=NULL) 
 screenInput(x=0, y=0, w=640, h=480, fps=25,
             display=Sys.getenv("DISPLAY"),
             duration=2)
@@ -24,6 +24,9 @@ concatInput(filenames)
   }
   \item{duration}{
     The number of seconds to read from the input.
+  }
+  \item{framerate}{
+    The number of frames per second.
   }
   \item{x,y,w,h}{
     The region of the screen to capture.

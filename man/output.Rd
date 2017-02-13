@@ -7,7 +7,7 @@
   Create an object that contains a description of an output for ffmpeg.
 }
 \usage{
-fileOutput(filename, vcodec=NULL, acodec=NULL, scodec=NULL) 
+fileOutput(filename, vcodec=NULL, acodec=NULL, scodec=NULL, framerate=NULL) 
 }
 \arguments{
   \item{filename}{
@@ -21,6 +21,9 @@ fileOutput(filename, vcodec=NULL, acodec=NULL, scodec=NULL)
   }
   \item{scodec}{
     The name of a sub-title codec (not currently supported).
+  }
+  \item{framerate}{
+    The number of frames per second.
   }
 }
 \value{

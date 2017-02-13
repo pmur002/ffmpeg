@@ -5,19 +5,28 @@
 ## relevant information, PLUS an as.character() method, so we can
 ## just paste() them to get a valid ffmpeg command
 
-fileInput <- function(filename, duration=NULL) {
+fileInput <- function(filename, duration=NULL, framerate=NULL) {
     x <- list(name=filename,
-              duration=duration)
+              duration=duration,
+              framerate=framerate)
     class(x) <- c("FFmpeg_input_file", "FFmpeg_input")
     x
 }
 
 as.character.FFmpeg_input_file <- function(x, ...) {
-    if (is.null(x$duration)) {
-        sprintf("-i %s", x$name)
-    } else {
-        sprintf("-t %f -i %s", x$duration, x$name)
+    fmt <- ""
+    args <- list()
+    if (!is.null(x$duration)) {
+        fmt <- paste0(fmt, "-t %f ")
+        args <- c(args, list(x$duration))
     }
+    if (!is.null(x$framerate)) {
+        fmt <- paste0(fmt, "-r %f ")
+        args <- c(args, list(x$framerate))
+    }
+    fmt <- paste0(fmt, "-i %s ")
+    args <- c(args, list(x$name))
+    do.call(sprintf, c(list(fmt), args))
 }
 
 screenInput <- function(x=0, y=0, w=640, h=480, fps=25,
