@@ -11,7 +11,8 @@
 \usage{
 fileInput(filename, duration=NULL, framerate=NULL) 
 screenInput(x=0, y=0, w=640, h=480, fps=25,
-            display=Sys.getenv("DISPLAY"),
+            format,
+            input,
             duration=2)
 concatInput(filenames) 
 }
@@ -31,8 +32,15 @@ concatInput(filenames)
   \item{x,y,w,h}{
     The region of the screen to capture.
   }
-  \item{display}{
-    The X11 display to capture.
+  \item{format}{
+    The ffmpeg device to use to grab the screen.
+    If not specified, defaults to \code{"x11grab"} on Linux and
+    \code{"gdigrab"} on Windows.
+  }
+  \item{input}{
+    The input source to use to grab the screen.
+    If not specified, defaults to \code{Sys.getenv("DISPLAY")+x,y}
+    on Linux and \code{"desktop"} on Windows.
   }
   \item{fps}{
     The frame rate for screen capture.

@@ -41,7 +41,7 @@ screenInput <- function(x=0, y=0, w=640, h=480, fps=25,
     if (missing(input)) {
         input <- switch(.Platform$OS.type,
                          "unix"=sprintf("%s+%d,%d",
-                                        Sys.getenv("DISPLAY"), x$x, x$y),
+                                        Sys.getenv("DISPLAY"), x, y),
                          "windows"="desktop")
     }
     x <- list(format=format,
