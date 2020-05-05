@@ -12,6 +12,14 @@
 ##   information (e.g., frame rate, bit rate) [at least]
 ffmpeg <- function(inputs, outputs, filters=NULL, 
                    overwrite=FALSE, wait=TRUE, echo=FALSE) {
+    if (is.null(getOption("ffmpeg.path"))) {
+        path <- Sys.which("ffmpeg")
+        if (path == "") {
+            stop("Unable to find ffmpeg (try setting 'ffmpeg.path' option)")
+        } else {
+            options("ffmpeg.path"=path)
+        }
+    }
     if (!is.null(filters)) {
         stop("Filters are currently unsupported")
     }
@@ -27,11 +35,16 @@ ffmpeg <- function(inputs, outputs, filters=NULL,
     if (overwrite) {
         options <- paste0(options, "-y ")
     }
-    cmd <- paste("ffmpeg", options,
+    cmd <- paste(getOption("ffmpeg.path"),
+                 options,
                  do.call(paste, inputs),
                  ## Filters will go here (?)
                  do.call(paste, outputs))
-    system(cmd, wait=wait)
+    if (.Platform$OS.type == "windows") {
+        shell(cmd, wait=wait)
+    } else {
+        system(cmd, wait=wait)
+    }
     if (echo) {
         cat(cmd, "\n")
     }

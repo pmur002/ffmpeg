@@ -30,26 +30,35 @@ as.character.FFmpeg_input_file <- function(x, ...) {
 }
 
 screenInput <- function(x=0, y=0, w=640, h=480, fps=25,
-                        display=Sys.getenv("DISPLAY"),
+                        format,
+                        input,
                         duration=2) {
-    format <- switch(R.version$os,
-                     "linux-gnu"="x11grab",
-                     stop("Only Linux is currently supported"))
+    if (missing(format)) {
+        format <- switch(.Platform$OS.type,
+                         "unix"="x11grab",
+                         "windows"="gdigrab")
+    }
+    if (missing(input)) {
+        input <- switch(.Platform$OS.type,
+                         "unix"=sprintf("%s+%d,%d",
+                                        Sys.getenv("DISPLAY"), x$x, x$y),
+                         "windows"="desktop")
+    }
     x <- list(format=format,
               x=x,
               y=y,
               w=w,
               h=h,
               fps=fps,
-              display=display,
+              input=input,
               duration=duration)
     class(x) <- c("FFmpeg_input_screen", "FFmpeg_input")
     x
 }
 
 as.character.FFmpeg_input_screen <- function(x, ...) {
-    sprintf("-f %s -video_size %dx%d -framerate %d -t %f -i %s+%d,%d ",
-            x$format, x$w, x$h, x$fps, x$duration, x$display, x$x, x$y)
+    sprintf("-f %s -video_size %dx%d -framerate %d -t %f -i %s ",
+            x$format, x$w, x$h, x$fps, x$duration, x$input)
 }
 
 concatInput <- function(filenames) {
